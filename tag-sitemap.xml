@@ -2,6 +2,41 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
+        <loc>http://yoursite-url/tags/%E7%BF%BB%E8%AF%91/</loc>
+        <lastmod>2018-12-14T03:11:42.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yoursite-url/tags/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/</loc>
+        <lastmod>2018-12-14T05:46:11.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yoursite-url/tags/JavaScript/</loc>
+        <lastmod>2018-12-14T05:46:11.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yoursite-url/tags/Javav/</loc>
+        <lastmod>2018-12-14T05:46:11.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yoursite-url/tags/Android/</loc>
+        <lastmod>2018-12-14T05:46:11.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>http://yoursite-url/tags/Hexo/</loc>
         <lastmod>2019-01-02T09:29:50.232Z</lastmod>
         <changefreq>weekly</changefreq>

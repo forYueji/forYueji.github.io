@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          null
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite-url/2018/12/13/Kotlin学习/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('undefined')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/BeanTechSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1></h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by John Doe on
+                            2018-12-13
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hyp</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1><span id="android-开发学习-kotlin">Android 开发学习 - Kotlin</span></h1>
+<ul>
+<li>
+<p>前言 -  最近版本上线后手上没有什么工作量就下来看看 Kotlin ，以下为学习相关内容</p>
+<p><strong>以下代码的写法存在多种，这里只列举其一</strong></p>
+</li>
+</ul>
+<pre><code>       单利  java 单例模式  &amp;  Kotlin 单例模式
+
+       枚举  java 枚举 &amp; Kotlin 枚举
+
+       数据类
+
+       Android 中常用的 Adapter Base 、 View 相关 在 Kotlin 中如何编写
+
+       Kotlin 中对象表达式和声明
+
+       Kotlin 中类和继承 &amp; 接口实现
+
+       Kotlin 中函数的声明
+
+       Kotlin 中高阶函数与 lambda 表达式的使用
+
+       Kotlin 中 修饰词
+
+       Kotlin 中 控制流
+
+       空安全 Null
+</code></pre>
+<hr>
+<p>下面进入正文：</p>
+<p><strong>java 单例模式  &amp;  Kotlin 单例模式</strong></p>
+<ul>
+<li>
+<p>java单例模式的实现</p>
+<pre><code>  private volatile static RequestService mRequestService;
+
+  private Context mContext;
+
+  public RequestService(Context context) {
+      this.mContext = context.getApplicationContext();
+  }
+
+  public static RequestService getInstance(Context context) {
+      RequestService inst = mRequestService;
+      if (inst == null) {
+          synchronized (RequestService.class) {
+              inst = mRequestService;
+              if (inst == null) {
+                  inst = new RequestService(context);
+                  mRequestService = inst;
+              }
+          }
+      }
+      return inst;
+  }
+</code></pre>
+</li>
+<li>
+<p>Kotlin中单例模式的实现</p>
+<pre><code>  class APIService(context: Context) {
+
+  protected var mContext: Context? = null
+
+  init {
+      mContext = context.applicationContext
+  }
+
+  companion object {
+      private var mAPIService: APIService? = null
+
+      fun getInstance(mContext: Context): APIService? {
+          var mInstance = mAPIService
+          if (null == mInstance) {
+              synchronized(APIService::class.java) {
+                  if (null == mInstance) {
+                      mInstance = APIService(mContext)
+                      mAPIService = mInstance
+                  }
+              }
+          }
+          return mInstance
+      }
+  }
+</code></pre>
+<p>}</p>
+</li>
+</ul>
+<p><strong>java 枚举 &amp; Kotlin 枚举</strong></p>
+<ul>
+<li>java 中</li>
+</ul>
+<pre><code>            private enum API {
+
+                HOME_LIST_API(&quot;homeList.api&quot;),
+
+                USER_INFO_API(&quot;userInfo.api&quot;),
+
+                CHANGE_USER_INFO_API(&quot;changeUserInfo.api&quot;),
+
+                private String key;
+
+                API(String key) {
+                    this.key = key;
+                }
+
+                @Override
+                public String toString() {
+                    return key;
+                }
+            }
+</code></pre>
+<ul>
+<li>
+<p>Kotlin 中</p>
+<pre><code>          class UserType {
+
+              private enum class API constructor(private val key: String) {
+
+                  HOME_LIST_API(&quot;homeList.api&quot;),
+
+                  USER_INFO_API(&quot;userInfo.api&quot;),
+
+                  CHANGE_USER_INFO_API(&quot;changeUserInfo.api&quot;);
+
+                  override fun toString(): String {
+                      return key
+                  }
+              }
+          }
+</code></pre>
+</li>
+</ul>
+<p><strong>数据类</strong></p>
+<ul>
+<li>
+<p>java 中</p>
+<pre><code>         public class UserInfo {
+
+             private String userName;
+             private String userAge;
+
+
+             public void setUserName(String val){
+                 this.userName = val;
+             }
+
+             public void setUserAge (String val){
+                 this.userAge = val
+             }
+
+             public String getUserName(){
+                 return userName;
+             }
+
+             public String getUserAge (){
+                 return userAge;
+             }
+         }
+</code></pre>
+</li>
+<li>
+<p>Kotlin 中</p>
+<pre><code>         data class UserInfo(var userName: String, var userAge: String) {
+         }
+</code></pre>
+<p>在Kotlin 中如果想改变具体某一个值可以这样写</p>
+<pre><code>         data class UserInfo(var userName: String, var userAge: Int) {
+
+             fun copy(name: String = this.userName, age: Int = this.userAge) = UserInfo(name, age)
+         }
+
+
+ 修改时可以这样写
+
+         val hy = UserInfo(name = &quot;Hy&quot;, age = 18)
+         val olderHy = hy.copy(age = 20)
+</code></pre>
+</li>
+</ul>
+<p><strong>Android 中常用的 Adapter Base 、 View 相关 在 Kotlin 中如何编写</strong></p>
+<ul>
+<li>
+<p>java</p>
+<pre><code>  public abstract class BaseAdapter&lt;M, H extends
+                  RecyclerView.ViewHolder&gt; extends RecyclerView.Adapter&lt;H&gt; {
+
+                      protected LayoutInflater mInflater;
+                      protected Context mContext;
+                      protected List&lt;M&gt; mList;
+
+                      public BaseAdapter(@Nullable Context context, @Nullable List&lt;M&gt; data) {
+
+                          if (null == context) return;
+
+                          this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                          this.mContext = context;
+                          this.mList = data;
+                      }
+
+                      @Override
+                      public int getItemCount() {
+                          return null == mList ? 0 : mList.size();
+                      }
+
+                      @Override
+                      public abstract H onCreateViewHolder(ViewGroup parent, int viewType);
+
+                      @Override
+                      public abstract void onBindViewHolder(H holder, int position);
+
+                      protected String getStrings(int resId) {
+                          return null == mContext ? &quot;&quot; : mContext.getResources().getString(resId);
+                      }
+              }
+</code></pre>
+</li>
+<li>
+<p>Kotlin</p>
+<pre><code>      abstract class BaseRecyclerAdapter&lt;M, H : RecyclerView.ViewHolder&gt;(
+              var mContext: Context, var mList: List&lt;M&gt;) : RecyclerView.Adapter&lt;H&gt;() {
+
+          override abstract fun onCreateViewHolder(parent: ViewGroup, viewType: Int): H
+
+          override fun getItemCount(): Int {
+              return if (null == mList) 0 else mList!!.size
+          }
+
+          override abstract fun onBindViewHolder(holder: H, position: Int)
+
+
+          protected fun getStrings(resId: Int): String {
+              return if (null == mContext) &quot;&quot; else mContext!!.resources.getString(resId)
+          }
+      }
+</code></pre>
+</li>
+</ul>
+<p><strong>View 编写 Java &amp; Kotlin</strong></p>
+<ul>
+<li>
+<p>Java</p>
+<pre><code>      public abstract class BaseLayout extends FrameLayout {
+          public Context mContext;
+
+          public LayoutInflater mInflater;
+
+          public BaseLayout(Context context) {
+              this(context, null);
+          }
+
+          public BaseLayout(Context context, AttributeSet attrs) {
+              this(context, attrs, 0);
+          }
+
+          public BaseLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+              super(context, attrs, defStyleAttr);
+              this.mContext = context;
+              this.mInflater = LayoutInflater.from(mContext);
+          }
+
+          public abstract int getLayoutId();
+
+          public abstract void initView();
+
+          public abstract void initData();
+
+          public abstract void onDestroy();
+
+      }
+</code></pre>
+</li>
+<li>
+<p>Kotlin</p>
+<pre><code>      abstract class BaseLayout(mContext: Context?) : FrameLayout(mContext) {
+
+          /**
+           * 当前 上下文
+           */
+          protected var mContext: Context? = null
+
+          /**
+           * contentView
+           */
+          private var mContentView: View? = null
+
+          /**
+           * 布局填充器
+           */
+          private var mInflater: LayoutInflater? = null
+
+          /**
+           * toast view
+           */
+          private var mToastView: ToastViewLayout? = null
+
+          /**
+           * 这里初始化
+           */
+          init {
+              if (mContext != null) {
+                  init(mContext)
+              }
+          }
+
+          fun init(context: Context) {
+              mContext = context;
+              mInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+
+              initContentView()
+
+              initView()
+
+              initData()
+
+              invalidate()
+          }
+
+          private fun initContentView() : Unit {
+              /**
+               * 当前容器
+               */
+              var mContentFrameLayout = FrameLayout(mContext)
+
+              /**
+               * content params
+               */
+              var mContentLayoutParams: ViewGroup.LayoutParams = ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
+              /**
+               * Toast params
+               */
+              var mToastLayoutParams: ViewGroup.LayoutParams = ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+
+              mContentView = mInflater!!.inflate(layoutId, this, false)
+
+              /**
+               * add content view
+               */
+              ViewUtils.inject(this, mContentView)
+              mContentFrameLayout.addView(mContentView, mContentLayoutParams)
+
+              /**
+               * add toast view
+               */
+              mToastView = ToastViewLayout(mContext)
+              ViewUtils.inject(this, mToastView)
+              mContentFrameLayout.addView(mToastView, mToastLayoutParams)
+
+              addView(mContentFrameLayout)
+
+          }
+
+          /**
+           * 获取 layoutId
+           */
+          abstract val layoutId: Int
+
+          /**
+           * 外部调用
+           */
+          abstract fun initView()
+
+          /**
+           * 外部调用 处理数据
+           */
+          abstract fun initData()
+
+          /**
+           * Toast view
+           */
+          class ToastViewLayout(context: Context?) : FrameLayout(context), Handler.Callback {
+
+              private val SHOW_TOAST_FLAG: Int = 1
+              private val CANCEL_TOAST_FLAG: Int = 2
+
+              override fun handleMessage(msg: Message?): Boolean {
+
+                  var action = msg?.what
+
+                  when (action) {
+                      SHOW_TOAST_FLAG -&gt; &quot;&quot;
+
+                      CANCEL_TOAST_FLAG -&gt; &quot;&quot;
+                  }
+                  return false
+              }
+
+              private var mHandler: Handler? = null
+
+              init {
+                  if (null != context) {
+                      mHandler = Handler(Looper.myLooper(), this)
+                  }
+              }
+
+              fun showToast(msg: String) {
+                  // 这里对 toast 进行显示
+
+                  // 当前正在显示, 这里仅改变显示内容
+                  visibility = if (isShown) View.INVISIBLE else View.VISIBLE
+              }
+
+              fun cancelToast() {
+                  visibility = View.INVISIBLE
+              }
+          }
+
+          /**
+           * 这里对 Toast view 进行显示
+           */
+          fun showToast(msg: String) {
+              mToastView!!.showToast(msg)
+          }
+
+          /**
+           * 这里对 Toast view 进行关闭
+           */
+          fun cancelToast() {
+              mToastView!!.cancelToast()
+          }
+      }
+</code></pre>
+</li>
+</ul>
+<p><strong>Kotlin 中对象表达式和声明</strong></p>
+<pre><code>    在开发中我们想要创建一个对当前类有一点小修改的对象，但不想重新声明一个子类。java 用匿名内部类的概念解决这个问题。Kotlin 用对象表达式和对象声明巧妙的实现了这一概念。
+
+        mWindow.addMouseListener(object: BaseAdapter () {
+        	override fun clicked(e: BaseAdapter) {
+        		// 代码省略
+        	}
+        })
+
+    在 Kotlin 中对象声明
+
+        object DataProviderManager {
+            fun registerDataProvider(provider: DataProvider) {
+                // 代码省略
+            }
+
+            val allDataProviders: Collection&lt;DataProvider&gt;
+                get() = // 代码省略
+        }
+</code></pre>
+<p><strong>Kotlin 中类和继承 &amp; 接口实现</strong></p>
+<p>在 Kotlin 中声明一个类</p>
+<pre><code>        class UserInfo(){
+        }
+</code></pre>
+<p>在 Kotlin 中 类后的（）中是可以直接定义 变量 &amp; 对象的</p>
+<pre><code>        class UserInfo(userName: String , userAge: Int){
+        }
+
+        class UserInfo(userType: UserType){
+        }
+</code></pre>
+<p>如果不想采用这种写法 Kotlin 中还有 constructor 关键字,采用 constructor 关键字可以这样写</p>
+<pre><code>        class UserInfo (){
+            private var userName: String? = &quot;&quot;
+            private var userAge : Int? = 0
+
+            constructor(userName: String, userAge: Int): sueper(){
+                this.userName = userName
+                this.userAge  = userAge
+            }
+        }
+</code></pre>
+<p>Kotlin 中申明一个 接口与 Java 不相上下</p>
+<pre><code>    interface UserInfoChangeListener {
+
+        fun change(user: UserInfo)
+    }
+</code></pre>
+<p>Kotlin 中继承一个类 &amp; 实现一个接口时 不用像 Java 那样 通过 extends &amp; implements 关键字, 在 Kotlin 中直接通过 : &amp; , 来实现。</p>
+<pre><code>        如:
+
+        abstract BaseResut&lt;T&gt; {
+
+            var code: Int? = -1
+            var message: String? = &quot;&quot;
+        }
+
+        implements BaseCallback {
+
+            fun callBack ()
+        }
+
+        UserInfoBean() : BaseResult&lt;UserInfoBean&gt; {
+            // ...
+        }
+
+        // 接口实现
+        UserInfoBean() : BaseCallback{
+
+            override fun callBack(){
+                // ....
+            }
+        }
+</code></pre>
+<p>如果当前类既需要继承又需要实现接口 可以这样写</p>
+<pre><code>        UserInfoBean() : BaseResult&lt;UserInfoBean&gt; , BaseCallback {
+
+            override fun callBack(){
+                // ....
+            }
+        }
+</code></pre>
+<p><strong>Kotlin 中函数的声明</strong></p>
+<p>在 Java 中声明一个函数, 模板写法</p>
+<pre><code>    private void readUserInfo (){
+        // ...
+    }
+</code></pre>
+<p>然而在 Kotlin 中直接 fun 即可</p>
+<pre><code>    // 无返回值 无返回时 Kotlin 中通过 Unit 关键字来声明 {如果 函数后没有指明返回时  Kotlin 自动帮您完成 Unit }
+    private fun readUserInfo (){
+        // ...
+    }
+
+    private fun readUserInfo (): UserInfo {
+        // ...
+    }
+</code></pre>
+<p><strong>Kotlin 中高阶函数与 lambda 表达式的使用</strong></p>
+<p>在 Android 开发中的 view click 事件 可用这样写</p>
+<pre><code>    mHomeLayout.setOnClickListener({ v -&gt; createView(readeBaseLayout(0, mViewList)) })
+</code></pre>
+<p>在实际开发中我们通常会进行各种 循环遍历 for 、 while 、 do while 循环等。。。</p>
+<pre><code>    在 Kotlin 中遍历一个 集合 | 数组时 可以通过这样
+
+    var mList = ArrayList&lt;String&gt;()
+
+    for (item in mList) {
+        // item...
+    }
+
+    这种写法看上去没什么新鲜感，各种语言都大同小异 那么在 Kotlin 中已经支持 lambda 表达式，虽然 Java  8 也支持 , 关于这点这里就不讨论了，这里只介绍 Kotlin 中如何编写
+
+    val mList = ArrayList&lt;String&gt;()
+
+    array.forEach { item -&gt; &quot;${Log.i(&quot;asList&quot;, item)}!&quot; }
+
+    在 Kotlin 中还有一点那就是 Map 的处理 &amp; 数据类型的处理, 在 Java 中编写感觉很是.......
+    关于 代码的写法差异化很多中，这里只列表几种常用的
+
+    val mMap = HashMap&lt;String, String&gt;()
+
+    第一种写法:
+        for ((k, v) in mMap) {
+            // K V
+        }
+    第二中写法:
+        mMap.map { item -&gt; &quot;${Log.i(&quot;map_&quot;, + &quot;_k_&quot; + item.key + &quot;_v_&quot; + item.value)}!&quot; }
+
+    第三种写法:
+        mMap.mapValues { (k, v) -&gt; Log.i(&quot;map_&quot;, &quot;_k_&quot; + k + &quot;_v_&quot; + v) }
+</code></pre>
+<p>在 Map 中查找某一个值，在根据这个值做相应的操作，在 Kotlin 中可以通过 in 关键字来进行处理</p>
+<pre><code>    如:
+    val mMap = HashMap&lt;String, String&gt;()
+
+    mMap.put(&quot;item1&quot;, &quot;a&quot;)
+    mMap.put(&quot;item2&quot;, &quot;b&quot;)
+
+    mMap.mapValues { (k , v)
+
+        if (&quot;item1&quot; in k){
+            // ....
+            continue
+        }
+        // ...
+    }
+</code></pre>
+<p><strong>in</strong> 关键字还有一个功能就是进行类型转换</p>
+<pre><code>    如:
+
+    fun getUserName (obj : Any): String{
+        if (obj in String &amp;&amp; obj.length &gt; 0){
+            return obj
+        }
+        return “”
+    }
+</code></pre>
+<p><strong>Kotlin 中 修饰词</strong></p>
+<pre><code>    如果没有指明任何可见性修饰词，默认使用 public ,这意味着你的声明在任何地方都可见；
+
+    如果你声明为 private ，则只在包含声明的文件中可见；
+
+    如果用 internal 声明，则在同一模块中的任何地方可见；
+
+    protected 在 &quot;top-level&quot; 中不可以使用
+</code></pre>
+<p>如:</p>
+<pre><code>    package foo
+
+    private fun foo() {} // visible inside example.kt
+
+    public var bar: Int = 5 // property is visible everywhere
+
+    private set // setter is visible only in example.kt
+
+    internal val baz = 6 // visible inside the same module
+</code></pre>
+<p>Kotlin 中 控制流</p>
+<p>流程控制</p>
+<pre><code>    在 Kotlin 中，if 是表达式，比如它可以返回一个值。是除了condition ? then : else)之外的唯一一个三元表达式
+
+    //传统用法
+        var max = a
+        if (a &lt; b)
+        	max = b
+
+        //带 else
+        var max: Int
+        if (a &gt; b)
+        	max = a
+        else
+        	max = b
+
+        //作为表达式
+        val max = if (a &gt; b) a else b
+</code></pre>
+<p>When 表达式, Kotlin 中取消了 Java &amp; C 语言风格的 switch 关键字, 采用 when 进行处理</p>
+<pre><code>    when (index) {
+        1 -&gt; L.i(&quot;第一条数据&quot; + index)
+        2 -&gt; L.i(&quot;第二条数据&quot; + index)
+        3 -&gt; L.i(&quot;第三条数据&quot; + index)
+    }
+</code></pre>
+<p><strong>空安全 Null</strong></p>
+<p>在许多语言中都存在的一个大陷阱包括 java ，就是访问一个空引用的成员，结果会有空引用异常。在 java 中这就是 NullPointerException 或者叫 NPE</p>
+<p>Kotlin 类型系统致力与消灭 NullPointerException 异常。唯一可能引起 NPE 异常的可能是：</p>
+<pre><code>   明确调用 throw NullPointerException() 外部 java 代码引起 一些前后矛盾的初始化(在构造函数中没初始化的成员在其它地方使用)
+
+    var a: String =&quot;abc&quot;
+    a = null //编译错误　
+</code></pre>
+<p>现在你可以调用 a 的方法，而不用担心 NPE 异常了：</p>
+<pre><code>   val l = a.length()
+</code></pre>
+<p>在条件中检查 null 首先，你可以检查 b 是否为空，并且分开处理下面选项：</p>
+<pre><code>    val l = if (b != null) b.length() else -1
+</code></pre>
+<p>编译器会跟踪你检查的信息并允许在 if 中调用 length()。更复杂的条件也是可以的：</p>
+<pre><code>    // 注意只有在 b 是不可变时才可以
+    if (b != null &amp;&amp; b.length() &gt;0)
+        print(&quot;Stirng of length ${b.length}&quot;)
+    else
+        print(&quot;Empty string&quot;)
+</code></pre>
+<p>安全调用  第二个选择就是使用安全操作符，?.:</p>
+<pre><code>    b?.length()
+
+    // 链表调用
+    bob?.department?.head?.name
+</code></pre>
+<p>!! 操作符<br>
+第三个选择是 NPE-lovers。我们可以用 b!! ，这会返回一个非空的 b 或者抛出一个 b 为空的 NPE</p>
+<pre><code>    val l = b !!.length()
+</code></pre>
+<p>安全转换<br>
+普通的转换可能产生 ClassCastException 异常。另一个选择就是使用安全转换，如果不成功就返回空：</p>
+<pre><code>    val aInt: Int? = a as? Int
+</code></pre>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/03/18/hexo-theme-beantech/" data-toggle="tooltip" data-placement="top" title="[Hexo] Theme BeanTech">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://beantech.org" target="_blank">Bean Tech</a></li>
+                    
+                        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It Helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://yoursite-url/2018/12/13/Kotlin学习/";
+    var disqus_url = "http://yoursite-url/2018/12/13/Kotlin学习/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; John Doe 2019 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite-url/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://yoursite-url/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
