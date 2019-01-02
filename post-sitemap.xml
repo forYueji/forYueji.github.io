@@ -7,6 +7,22 @@
     </url>
 
     <url>
+        <loc>http://yoursite-url/2015/09/22/Java&Kotlin%E5%8D%95%E5%88%A9%E6%A8%A1%E5%BC%8F/</loc>
+        <lastmod>2019-01-02T09:52:03.481Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://yoursite-url/2017/07/10/Kotlin%E5%AD%A6%E4%B9%A0/</loc>
+        <lastmod>2019-01-02T09:52:03.474Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://yoursite-url/2017/03/18/hexo-theme-beantech/</loc>
         <lastmod>2019-01-02T09:29:50.232Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -15,24 +31,8 @@
     </url>
 
     <url>
-        <loc>http://yoursite-url/2015/09/22/Java&Kotlin%E5%8D%95%E5%88%A9%E6%A8%A1%E5%BC%8F/</loc>
-        <lastmod>2018-12-14T05:46:11.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>http://yoursite-url/2014/09/22/js-version/</loc>
         <lastmod>2018-12-14T03:11:42.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://yoursite-url/2018/12/13/Kotlin%E5%AD%A6%E4%B9%A0/</loc>
-        <lastmod>2018-12-13T09:53:15.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
