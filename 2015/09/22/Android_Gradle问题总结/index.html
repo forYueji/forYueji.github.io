@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          About - Hyp-Blog
+          Android D8 DEX 编译器 - Hyp-Blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite-url/about/">
+    <link rel="canonical" href="http://yoursite-url/2015/09/22/Android_Gradle问题总结/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,8 +69,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/Iron-Man-3.jpg')
-            /*page*/
+            background-image: url('header.jpg')
+            /*post*/
         
     }
     
@@ -87,10 +87,20 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>About</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">Wish for the Best, Prepare for the Worst</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Javav" title="Javav">Javav</a>
+                            
+                              <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                            
+                        </div>
+                        <h1>Android D8 DEX 编译器</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by Hyp on
+                            2015-09-22
+                        </span>
                     </div>
                 
 
@@ -193,214 +203,211 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                <blockquote>
-<p>光有好奇心而不去實踐，等於自願放棄成功機會<br>
-別為自己畫地自限，Just Do It！！</p>
-</blockquote>
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
+                <p><strong>Android D8 DEX 编译器</strong></p>
+<p>Android Studio 3.1(++) 版本中，将 D8 作为新版本开发工具默认的 Dex 编译器。那么什么是 D8 呢，D8 与之前的 Dex 打包器有何区别呢？</p>
+<p>安卓项目在打包生成 Apk 安装文件的过程中，最重要的一步便是将我们所写的 java 代码编译过成 .class 字节文件再打包转化成一个或多个 .dex 格式的代码压缩文件。这种 dex 文件便是 Android 虚拟机所能识别、解析并运行的程序。</p>
+<p>Google 一直在致力于提升 Dex 文件的编译和运行优化工作，并开发出称之为下一代 dex 编译器：D8。其实早在 AS 3.0 Beta 版本中，Google 已经引入 D8 的测试使用。直到当前 3.1 新版本的发布，才正式将其作为默认 Dex 编译器。</p>
+<p>Android Studio 3.1 版本起 gradle 默认采用 D8 进行编译， AS 3.1之前版本可以采用 android.enableD8=true 来开启 D8 编译，如 3.1 版本或后续版本禁止 D8 编译，可以通过在 android.enableD8=false 来禁止 D8</p>
+<p>*<a href="https://android-developers.googleblog.com/2018/04/android-studio-switching-to-d8-dexer.html" target="_blank" rel="noopener">Google 官网地址</a></p>
+<p>*<a href="https://r8.googlesource.com/r8" target="_blank" rel="noopener">R8</a></p>
+<hr>
+<p><strong>Android enableAapt2</strong></p>
+<p>上线前产品要求替换 启动页图片，这是甩过来一张 jpg 格式的图片，由于整个工程都是采用 png 格式，所以就在 AS 中动态的修改了图片的的后缀名称, 这时再去编译就会甩一个异常信息给你</p>
+<pre><code>Error: java.util.concurrent.ExecutionException: com.android.builder.internal.aapt.v2.Aapt2Exception: AAPT2 error: check logs for details
+</code></pre>
+<p>这是需要在 gradle.properties 文件中申明</p>
+<pre><code>android.enableAapt2=false
+</code></pre>
+<p>或者在 build.gradle 文件中 buildTypes 节点中添加</p>
+<pre><code>aaptOptions.cruncherEnabled = false
+aaptOptions.useNewCruncher = false
+</code></pre>
+<p>禁止 Gradle 检查 png 的合法性</p>
+<p>*<a href="https://stackoverflow.com/questions/47589873/aapt2-error-check-logs-for-details" target="_blank" rel="noopener">stackoverflow</a> stackoverflow</p>
+<hr>
+<p><strong>android multi dex 64k</strong></p>
+<p>随着产品的不断完善，代码量的不断增加，最后在打包时 android multi dex 64k 方法数限制就映入眼前了， 关于解决方法 网上有很多做法，这里列出 Google 官方对 64K 限制的解决方法</p>
+<p>*<a href="https://developer.android.com/studio/build/multidex?hl=zh-cn" target="_blank" rel="noopener">Google 官方对 dex 64k 介绍</a> {“自备梯子”}</p>
+<p>当然可以添加混淆来剔除无用的函数，也可以通过  dexOptions 来设置</p>
+<pre><code>dexOptions {
+            javaMaxHeapSize &quot;2g&quot;
 
-                <!-- 如果开启评论功能 -->
+            additionalParameters += '--multi-dex'
+
+            additionalParameters += '--set-max-idx-number=62000'
+
+            additionalParameters += '--minimal-main-dex'
+        }
+</code></pre>
+<p>// 方法超出后生成多个 dex 文件<br>
+additionalParameters += ‘–multi-dex’<br>
+// 改变 dex 方法数上限 这里设置 62000<br>
+additionalParameters += ‘–set-max-idx-number=62000’<br>
+// -main-dex-list指定的所有class会打包到主dex中</p>
+<p>{</p>
+<pre><code>这里也可以通过 multidex-config 文件 keep 某一个类文件到主 dex 文件中
+
+如: multiDexKeepProguard file('multidex-config.txt')
+</code></pre>
+<p>}</p>
+<p>additionalParameters += ‘–minimal-main-dex’</p>
+<p>这里可以采用 useDexArchive 来禁用增量dexing</p>
+<p>如：</p>
+<pre><code>android.useDexArchive=false
+</code></pre>
+<p>最后可以使用 FaceBook redex 来进行压缩， 关于 redex 优化 facebook 文档上有详细的介绍</p>
+<p>*<a href="https://code.fb.com/android/optimizing-android-bytecode-with-redex/" target="_blank" rel="noopener">FaceBook develop</a></p>
+<p>*<a href="https://github.com/facebook/redex" target="_blank" rel="noopener">Github 地址</a></p>
+
                 
-                    <hr>
 
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
                     
+                        <li class="previous">
+                            <a href="/2017/07/10/Kotlin学习/" data-toggle="tooltip" data-placement="top" title="Android 开发学习 - Kotlin">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2015/09/22/Java&Kotlin单利模式/" data-toggle="tooltip" data-placement="top" title="Java & Kotlin 之单利模式">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
 
-                    
-                    <!-- disqus 评论框 start -->
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
                     <div class="comment">
                         <div id="disqus_thread" class="disqus-thread"></div>
                     </div>
-                    <!-- disqus 评论框 end -->
-                    
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
 
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
-                    
-
-                    
-                    <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
-                    <script type="text/javascript">
-                        /* * * CONFIGURATION VARIABLES * * */
-                        var disqus_shortname = "your-disqus-ID";
-                        var disqus_identifier = "http://yoursite-url/about/index.html";
-                        var disqus_url = "http://yoursite-url/about/index.html";
-
-                        (function() {
-                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                        })();
-
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Javav" title="Javav">Javav</a>
                         
-                    </script>
-                    <!-- disqus 公共JS代码 end -->
+                          <a class="tag" href="/tags/#Android" title="Android">Android</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
                     
+                        <li><a href="http://beantech.org" target="_blank">Bean Tech</a></li>
+                    
+                        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">It Helps SEO</a></li>
+                    
+                </ul>
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-            <a href="/tags/#Javav" title="Javav" rel="2">Javav</a>
-            
-        
-            
-            <a href="/tags/#Android" title="Android" rel="3">Android</a>
-            
-        
-            
-            <a href="/tags/#前端开发" title="前端开发" rel="3">前端开发</a>
-            
-        
-            
-            <a href="/tags/#JavaScript" title="JavaScript" rel="3">JavaScript</a>
-            
-        
-            
-        
-            
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
 
-        
-            <img id="avatar_pic" src="/img/avatar.jpg">
-        
 
-        
-            <p>Hi, i&#39;m John Doe</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://yoursite-url/2015/09/22/Android_Gradle问题总结/";
+    var disqus_url = "http://yoursite-url/2015/09/22/Android_Gradle问题总结/";
 
-            
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
 
-            
-                <li>
-                    <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
 
-            
-                <li>
-                    <a target="_blank" href="https://github.com/YenYuHsuan">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-                <li>
-                    <a target="_blank" href="https://www.linkedin.com/in/yu-hsuan-yen">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-        </ul>
-    </div>
-</section>
-        <hr>
-    
-        
-  <h5>RECENT POSTS
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/2017/07/10/Kotlin学习/">Android 开发学习 - Kotlin</a>
-        </li>
-      
-        <li>
-          <a href="/2015/09/22/Android_Gradle问题总结/">Android D8 DEX 编译器</a>
-        </li>
-      
-        <li>
-          <a href="/2015/09/22/Java&Kotlin单利模式/">Java &amp; Kotlin 之单利模式</a>
-        </li>
-      
-        <li>
-          <a href="/2014/09/22/js-version/">Example Post</a>
-        </li>
-      
-    </ul>
-  </div>
-</h5>
-        <hr>
-    
-        <!-- Friends Blog -->
 
-<h5>FRIENDS</h5>
-<ul class="list-inline">
 
-    
-        <li><a href="http://beantech.org" target="_blank">Bean Tech</a></li>
-    
-        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
-    
-        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
-    
-        <li><a href="#" target="_blank">It Helps SEO</a></li>
-    
-</ul>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->
