@@ -146,14 +146,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -317,7 +317,7 @@
 <li>④当手机屏幕进行横竖屏切换的时候不会崩溃或者丢掉用户的进程</li>
 </ul>
 <p>3、生命周期的金字塔图</p>
-<p><img src="http://note.youdao.com/yws/res/852/120772BADF36466DB9CB01B925E1F41A" alt="img"></p>
+<p><img src="basic-lifecycle.png" alt="Android生命周期"></p>
 <p>(三)、实例代码操作：</p>
 <p>模仿以下操作，观察输出日志，找寻生命周期方法依次回调的规律：</p>
 <ol>
@@ -350,10 +350,9 @@
 <p>当用户按下回退按钮时，当前的Activity会被从回退栈的顶部弹出（这个Activity被销毁），而前一个Activity被恢复。堆栈中的Activity不会被重新排列。因此，回退栈的操作跟后进先出的对象结构是一样的。</p>
 <p>在用户按下回退按钮时，当前Activity被销毁，并且前一个Activity被恢复。如果用户继续按回退按钮，那么回退栈中的每个Activity会被依次弹出，前一个Activity会被显示，直到用户返回主屏（或者返回到任务开始时运行的那个Activity）。当所有的Activity从回退栈中被删除时，这个任务就不再存在了。</p>
 <p>图1：用一个时间表显示了当前回退堆栈中的Activity之间在每个时间点的处理过程<br>
-<img src="javascript-java.jpg" alt="Android生命周期"></p>
-<p><img src="http://note.youdao.com/yws/res/854/36D59D18B4D34D04804DEA920DA9C9E8" alt="img"></p>
+<img src="0_1329911158elr3.png" alt="Android生命周期"></p>
 <p>2、多个任务：</p>
-<p><img src="http://note.youdao.com/yws/res/856/3EED44A5E5CF48948B7C05E669E00D86" alt="img"></p>
+<p><img src="0_13299112886Qx9.png" alt="Android生命周期"></p>
 <p>图2. 两个任务：任务B在前台接受用户交互，而任务A则在后台等待被恢复。</p>
 <p>【PS：】后台中可以同时拥有多个任务，但是如果用户同时运行了很多后台任务，系统为了回收内存可能销毁一些后台的Activity，从而导致Activity的状态丢失。</p>
 <p>​        因为回退堆栈中的Activity不曾被重新排列，因此如果允许用户从多个Activity中启动一个特殊的Activity，那么就会创建一个新的Activity实例，并且在堆栈的顶部弹出（而不是把之前的Activity实例带到堆栈的顶端）。这样在你的应用程序中一个Activity就可能被实例化多次（甚至来自不同任务）。</p>
