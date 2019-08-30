@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Android D8 DEX 编译器 - Hyp-Blog
+          Intent及其七大属性及intent-filter设置 - Hyp-Blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite-url/2018/03/22/Android_Gradle问题总结/">
+    <link rel="canonical" href="http://yoursite-url/2016/05/11/Intent/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -95,11 +95,11 @@
                               <a class="tag" href="/tags/#Android" title="Android">Android</a>
                             
                         </div>
-                        <h1>Android D8 DEX 编译器</h1>
+                        <h1>Intent及其七大属性及intent-filter设置</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Hyp on
-                            2018-03-22
+                            2016-05-11
                         </span>
                     </div>
                 
@@ -216,61 +216,287 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p><strong>Android D8 DEX 编译器</strong></p>
-<p>Android Studio 3.1(++) 版本中，将 D8 作为新版本开发工具默认的 Dex 编译器。那么什么是 D8 呢，D8 与之前的 Dex 打包器有何区别呢？</p>
-<p>安卓项目在打包生成 Apk 安装文件的过程中，最重要的一步便是将我们所写的 java 代码编译过成 .class 字节文件再打包转化成一个或多个 .dex 格式的代码压缩文件。这种 dex 文件便是 Android 虚拟机所能识别、解析并运行的程序。</p>
-<p>Google 一直在致力于提升 Dex 文件的编译和运行优化工作，并开发出称之为下一代 dex 编译器：D8。其实早在 AS 3.0 Beta 版本中，Google 已经引入 D8 的测试使用。直到当前 3.1 新版本的发布，才正式将其作为默认 Dex 编译器。</p>
-<p>Android Studio 3.1 版本起 gradle 默认采用 D8 进行编译， AS 3.1之前版本可以采用 android.enableD8=true 来开启 D8 编译，如 3.1 版本或后续版本禁止 D8 编译，可以通过在 android.enableD8=false 来禁止 D8</p>
-<p>*<a href="https://android-developers.googleblog.com/2018/04/android-studio-switching-to-d8-dexer.html" target="_blank" rel="noopener">Google 官网地址</a></p>
-<p>*<a href="https://r8.googlesource.com/r8" target="_blank" rel="noopener">R8</a></p>
-<hr>
-<p><strong>Android enableAapt2</strong></p>
-<p>上线前产品要求替换 启动页图片，这是甩过来一张 jpg 格式的图片，由于整个工程都是采用 png 格式，所以就在 AS 中动态的修改了图片的的后缀名称, 这时再去编译就会甩一个异常信息给你</p>
-<pre><code>Error: java.util.concurrent.ExecutionException: com.android.builder.internal.aapt.v2.Aapt2Exception: AAPT2 error: check logs for details
-</code></pre>
-<p>这是需要在 gradle.properties 文件中申明</p>
-<pre><code>android.enableAapt2=false
-</code></pre>
-<p>或者在 build.gradle 文件中 buildTypes 节点中添加</p>
-<pre><code>aaptOptions.cruncherEnabled = false
-aaptOptions.useNewCruncher = false
-</code></pre>
-<p>禁止 Gradle 检查 png 的合法性</p>
-<p>*<a href="https://stackoverflow.com/questions/47589873/aapt2-error-check-logs-for-details" target="_blank" rel="noopener">stackoverflow</a> stackoverflow</p>
-<hr>
-<p><strong>android multi dex 64k</strong></p>
-<p>随着产品的不断完善，代码量的不断增加，最后在打包时 android multi dex 64k 方法数限制就映入眼前了， 关于解决方法 网上有很多做法，这里列出 Google 官方对 64K 限制的解决方法</p>
-<p>*<a href="https://developer.android.com/studio/build/multidex?hl=zh-cn" target="_blank" rel="noopener">Google 官方对 dex 64k 介绍</a> {“自备梯子”}</p>
-<p>当然可以添加混淆来剔除无用的函数，也可以通过  dexOptions 来设置</p>
-<pre><code>dexOptions {
-            javaMaxHeapSize &quot;2g&quot;
+                <p><strong>Intent及其七大属性及intent-filter设置</strong></p>
+<p>一、Intent对象介绍：</p>
+<p>（一）、Intent基本介绍：</p>
+<p>1、Intent 用于封装程序的”调用意图“。两个Activity之间，可以把需要交换的数据封装成Bundle对象，然后使用Intent携带Bundle对象，实现两个Activity之间的数据交换；</p>
+<p>2、Intent还是各种应用程序组件之间通信的重要媒介。不管想启动一个Acitivity、Service还是BroadcastReceiver，Android均使用统一的Intent对象来封装这种”启动意图“。很明显使用Intent提供了一致的编程模型；</p>
+<p>3、Intent还有一个好处，如果应用程序只是想启动具有某种特征的组件，并不想和某个具体的组件耦合，则可以通过在intent-filter中配置相应的属性进行处理，与stucts2中的MVC框架思路类似。</p>
+<p>4、Intent对象大致包括7大属性：ComponentName、  Action 、 Category 、 Data  、Type、  Extra  、Flag。</p>
+<p>（二）、Intent启动不同组件的方法：</p>
+<p>1、启动Activity：</p>
+<ul>
+<li>startActivity()</li>
+<li>startActivtyForResult()</li>
+</ul>
+<p>2、启动Service：【后面详细讲】</p>
+<ul>
+<li>ComponetName   startService()</li>
+<li>boolean    bindService()</li>
+</ul>
+<p>3、启动BroadcastReceiver：【后面详细讲】</p>
+<ul>
+<li>sendBroadcast()</li>
+<li>sendOrderedBroadcast ()</li>
+<li>sendStickyBroadcast()</li>
+<li>sendStickyOrderedBroadcast()</li>
+</ul>
+<p>三、Intent的七大属性：</p>
+<p>Intent对象大致包括7大属性：ComponentName、  Action 、 Category 、 Data  、Type、  Extra  、Flag。</p>
+<ul>
+<li>Action作为标识符，代表一个Intent，当一个Activity需要外部协助处理时，就会发出一个Intent，如果一个程序能完成相应功能，只要在intent-filter加上这个这个intent就可以了。</li>
+<li>Data保存需要传递的数据格式，比如：tel://</li>
+<li>Extras保存需要传递的额外数据。</li>
+<li>Category表示Intent的种类，从android上启动Activity有多种方式，比如 程序列表、桌面图标、点击Home激活的桌面等等，Category则用来标识这些Activity的图标会出现在哪些启动的上下文环境里。</li>
+</ul>
+<p>（一）、ComponentName属性：</p>
+<p>1、指定了ComponentName属性的Intent已经明确了它将要启动哪个组件，因此这种Intent被称为显式Intent，没有指定ComponentName属性的Intent被称为隐式Intent。隐式Intent没有明确要启动哪个组件，应用会根据Intent指定的规则去启动符合条件的组件。</p>
+<p>2、示例代码：</p>
+<pre><code>Intent intent = new Intent();
 
-            additionalParameters += '--multi-dex'
+ComponentName cName = new ComponentName(MainActivity.this,NextActivity.class);
 
-            additionalParameters += '--set-max-idx-number=62000'
+intent.setComponent(cName);
 
-            additionalParameters += '--minimal-main-dex'
-        }
+startActivity(intent);
 </code></pre>
-<p>// 方法超出后生成多个 dex 文件<br>
-additionalParameters += ‘–multi-dex’<br>
-// 改变 dex 方法数上限 这里设置 62000<br>
-additionalParameters += ‘–set-max-idx-number=62000’<br>
-// -main-dex-list指定的所有class会打包到主dex中</p>
-<p>{</p>
-<pre><code>这里也可以通过 multidex-config 文件 keep 某一个类文件到主 dex 文件中
+<p>//实际上，以上的写法都被简化为以下写法：</p>
+<pre><code>Intent intent = new Intent(MainActivity.this,NextActivity.class);
 
-如: multiDexKeepProguard file('multidex-config.txt')
+startActivity(intent);
 </code></pre>
-<p>}</p>
-<p>additionalParameters += ‘–minimal-main-dex’</p>
-<p>这里可以采用 useDexArchive 来禁用增量dexing</p>
-<p>如：</p>
-<pre><code>android.useDexArchive=false
+<p>/**</p>
+<p>*也就是说，平时我们最常用的Intent页面跳转的写法就调用的是显式Intent。</p>
+<p>*/</p>
+<p>（二）、Action、Category属性与intent-filter配置：</p>
+<p>​        通常，Action、Category属性结合使用，定义这两个属性都是在配置文件的<intent-filter>节点中。Intent通过定义Action属性（其实就是一段自定义的字符串），这样就可以把Intent与具体的某个Activity分离，实现了解耦。否则，每次跳转，都要写成类似new Intent(MainActivity.this,NextActivity.class)这样的形式，也就是说必须将要跳转的目标Activity的名字写出来，这样的编码其实是“硬编码”，并没有实现松耦合。调用Intent对象的setAction()方法实现页面跳转虽然略微复杂（需要在AndroidManifest.xml文件中配置），但是实现了解耦。</intent-filter></p>
+<p>1、示例代码：</p>
+<pre><code>Intent intent = new Intent();
+
+intent.setAction(&quot;com.steven.android06lifecycle.nextactivity&quot;);
+
+startActivity(intent);
 </code></pre>
-<p>最后可以使用 FaceBook redex 来进行压缩， 关于 redex 优化 facebook 文档上有详细的介绍</p>
-<p>*<a href="https://code.fb.com/android/optimizing-android-bytecode-with-redex/" target="_blank" rel="noopener">FaceBook develop</a></p>
-<p>*<a href="https://github.com/facebook/redex" target="_blank" rel="noopener">Github 地址</a></p>
+<p>//在配置文件中注册Activity的时候需要声明：</p>
+<pre><code>&lt;activity android:name=&quot;com.steven.android06lifecycle.NextActivity&quot;&gt;
+</code></pre>
+<p>​		<intent-filter><br>
+​		<action android:name="com.steven.android06lifecycle.nextactivity"><br>
+			<category android:name="android.intent.category.DEFAULT"><br>
+​		</category></action></intent-filter><br>
+</p>
+<p>//当某个页面是默认启动页面时，需要定义Action、Category的属性必须为以下字符串：【设置任务入口】</p>
+<p>​        <intent-filter><br>
+​             <action android:name="android.intent.action.MAIN"><br>
+​             <category android:name="android.intent.category.LAUNCHER"><br>
+​        </category></action></intent-filter></p>
+<p>2、常用Action属性常量：</p>
+<p>​ Intent对象不仅可以启动本应用内的程序组件，也可以启动Android系统的其他应用的组件，包括系统内置的程序组件（需要设置权限）。</p>
+<ul>
+<li>
+<p>ACTION_MAIN：（android.intent.action.MAIN）Android程序入口。</p>
+</li>
+<li>
+<p>每个Android应用必须且只能包含一个此类型的Action声明。【如果设置多个，则哪个在前，执行哪个。】</p>
+</li>
+<li>
+<p>ACTION_VIEW： （android.intent.action.VIEW） 显示指定数据。</p>
+</li>
+<li>
+<p>ACTION_EDIT： （android.intent.action.EDIT） 编辑指定数据。</p>
+</li>
+<li>
+<p>ACTION_DIAL： （android.intent.action.DIAL） 显示拨号面板。</p>
+</li>
+<li>
+<p>ACTION_CALL： （android.intent.action.CALL） 直接呼叫Data中所带的号码。</p>
+</li>
+<li>
+<p>ACTION_ANSWER： （android.intent.action.ANSWER） 接听来电。</p>
+</li>
+<li>
+<p>ACTION_SEND： （android.intent.action.SEND） 向其他人发送数据（例如：彩信/email）。</p>
+</li>
+<li>
+<p>ACTION_SENDTO：  （android.intent.action.SENDTO） 向其他人发送短信。</p>
+</li>
+<li>
+<p>ACTION_SEARCH： （android.intent.action.SEARCH） 执行搜索。</p>
+</li>
+<li>
+<p>ACTION_GET_CONTENT： （android.intent.action.GET_CONTENT） 让用户选择数据，并返回所选数据。</p>
+</li>
+</ul>
+<p>（三）、Category 属性：</p>
+<p>​       Category属性为Action增加额外的附加类别信息。CATEGORY_LAUNCHER意味着在加载程序的时候Acticity出现在最上面，而CATEGORY_HOME表示页面跳转到HOME界面。</p>
+<p>1、实现页面跳转到HOME界面的代码：</p>
+<pre><code>Intent intent = new Intent();
+intent.setAction(Intent.ACTION_MAIN);
+intent.addCategory(Intent.CATEGOTY_HOME);
+startActivity(intent);
+</code></pre>
+<p>2、常用Category属性常量：</p>
+<ul>
+<li>CATEGORY_DEFAULT： （android.intent.category.DEFAULT） Android系统中默认的执行方式，按照普通Activity的执行方式执行。</li>
+<li>CATEGORY_HOME： （android.intent.category.HOME） 设置该组件为Home Activity。</li>
+<li>CATEGORY_PREFERENCE： （android.intent.category.PREFERENCE） 设置该组件为Preference。</li>
+<li>CATEGORY_LAUNCHER： （android.intent.category.LAUNCHER） 设置该组件为在当前应用程序启动器中优先级最高的Activity，通常与入口ACTION_MAIN配合使用。</li>
+<li>CATEGORY_BROWSABLE： （android.intent.category.BROWSABLE） 设置该组件可以使用浏览器启动。</li>
+</ul>
+<p>（四）、Data属性：</p>
+<p>1、Data属性通常用于向Action属性提供操作的数据。Data属性的值是个Uri对象。</p>
+<p>​        Uri的格式如下：scheme://host:port/path</p>
+<p>​  2、系统内置的几个Data属性常量：</p>
+<ul>
+<li>tel://：号码数据格式，后跟电话号码。</li>
+<li>mailto://：邮件数据格式，后跟邮件收件人地址。</li>
+<li>smsto://：短息数据格式，后跟短信接收号码。</li>
+<li>content://：内容数据格式，后跟需要读取的内容。</li>
+<li>file://：文件数据格式，后跟文件路径。</li>
+<li>market://search?q=pname:pkgname：市场数据格式，在Google Market里搜索包名为pkgname的应用。</li>
+<li>geo://latitude, longitude：经纬数据格式，在地图上显示经纬度所指定的位置。</li>
+</ul>
+<p>​  3、Intent利用Action属性和Data属性启动Android系统内置组件的代码：【不需要记忆，用到的时候查找资料】</p>
+<p>（一）、拨打电话：</p>
+<pre><code>Intent intent=new Intent();
+intent.setAction(Intent.ACTION_CALL);
+//intent.setAction(&quot;android.intent.action.CALL&quot;);  //以下各项皆如此，都有两种写法。
+intent.setData(Uri.parse(&quot;tel:1320010001&quot;));
+startActivity(intent);
+</code></pre>
+<p>//调用拨号面板：</p>
+<pre><code>Intent intent=new Intent();
+intent.setAction(Intent.ACTION_DIAL);
+intent.setData(Uri.parse(&quot;tel:1320010001&quot;));
+startActivity(intent);
+</code></pre>
+<p>//调用拨号面板：</p>
+<pre><code>Intent intent=new Intent();
+intent.setAction(Intent.ACTION_VIEW);
+intent.setData(Uri.parse(&quot;tel:1320010001&quot;));
+startActivity(intent);
+</code></pre>
+<p>（二）、利用Uri打开浏览器、打开地图等：</p>
+<pre><code>Uri uri = Uri.parse(&quot;http://www.google.com&quot;); //浏览器
+Uri uri=Uri.parse(&quot;geo:39.899533,116.036476&quot;); //打开地图定位
+Intent intent = new Intent();
+intent.setAction(Intent.ACTION_VIEW);
+intent.setData(uri);
+startActivity(intent);
+</code></pre>
+<p>（三）、播放视频：</p>
+<pre><code>Intent intent = new Intent();
+Uri uri = Uri.parse(&quot;file:///sdcard/media.mp4&quot;);
+intent.setAction(Intent.ACTION_VIEW);
+intent.setDataAndType(uri, &quot;video/*&quot;);
+startActivity(intent);
+</code></pre>
+<p>（四）、调用发送短信的程序</p>
+<pre><code>Intent  intent  = new Intent();
+intent.setAction(Intent.ACTION_VIEW);
+intent.setType(&quot;vnd.android-dir/mms-sms&quot;);
+intent.putExtra(&quot;sms_body&quot;, &quot;信息内容...&quot;);
+startActivity(intent);
+</code></pre>
+<p>//发送短信息</p>
+<pre><code>Uri uri = Uri.parse(&quot;smsto:13200100001&quot;);
+Intent  intent  = new Intent();
+intent.setAction(Intent.  ACTION_SENDTO );
+intent.setData(uri);
+intent.putExtra(&quot;sms_body&quot;, &quot;信息内容...&quot;);
+startActivity( intent );
+</code></pre>
+<p>//发送彩信,设备会提示选择合适的程序发送</p>
+<pre><code>Uri uri = Uri.parse(&quot;content://media/external/images/media/23&quot;); //设备中的资源（图像或其他资源）
+Intent intent = new Intent();
+intent.setAction(Intent.  ACTION_SEND );
+intent.setType(&quot;image/png&quot;);
+intent.putExtra(&quot;sms_body&quot;, &quot;内容&quot;);
+intent.putExtra(Intent.EXTRA_STREAM, uri);
+startActivity(it);
+</code></pre>
+<p>（五）、发送Email：</p>
+<pre><code>Intent intent=new Intent();
+intent.setAction(Intent.  ACTION_SEND );
+String[] tos={&quot;[android1@163.com](mailto:android1@163.com)&quot;};
+String[] ccs={&quot;[you@yahoo.com](mailto:you@yahoo.com)&quot;};
+intent.putExtra(Intent.EXTRA_EMAIL, tos);
+intent.putExtra(Intent.EXTRA_CC, ccs);
+intent.putExtra(Intent.EXTRA_TEXT, &quot;The email body text&quot;);
+intent.putExtra(Intent.EXTRA_SUBJECT, &quot;The email subject text&quot;);
+intent.setType(&quot;message/rfc822&quot;);
+startActivity(Intent.createChooser(intent, &quot;Choose Email Client&quot;));
+</code></pre>
+<p>4、 Intent利用Action属性中的ACTION_GET_CONTENT获取返回值：</p>
+<p>//选择图片 requestCode 返回的标识</p>
+<pre><code>Intent intent = new Intent();
+intent.setAction(Intent. ACTION_GET_CONTENT );
+intent.setType( &quot;image/*&quot; );
+Intent wrapperIntent = Intent.createChooser(intent, null);
+startActivityForResult(wrapperIntent, requestCode);
+</code></pre>
+<p>//添加音频</p>
+<pre><code>Intent intent = new Intent();
+intent.setAction(Intent. ACTION_GET_CONTENT );
+intent.setType( &quot;video/*&quot; );
+Intent wrapperIntent = Intent.createChooser(intent, null);
+startActivityForResult(wrapperIntent, requestCode);
+</code></pre>
+<p>//视频</p>
+<pre><code>Intent intent = new Intent();
+intent.setAction(Intent. ACTION_GET_CONTENT );
+intent.setType( &quot;video/*&quot; );
+Intent wrapperIntent = Intent.createChooser(intent, null);
+startActivityForResult(wrapperIntent, requestCode);
+</code></pre>
+<p>//录音</p>
+<pre><code>Intent intent = new Intent();
+intent.setAction(Intent. ACTION_GET_CONTENT );
+intent.setType( &quot;audio/amr&quot; );
+intent.setClassName(&quot;com.android.soundrecorder&quot;,&quot;com.android.soundrecorder.SoundRecorder&quot;);
+startActivityForResult(intent, requestCode);
+</code></pre>
+<p>（五）、Type属性：</p>
+<p>​    1、Type属性用于指定Data所指定的Uri对应的MIME类型。MIME只要符合“abc/xyz”这样的字符串格式即可。</p>
+<p>​    2、 Intent利用Action、Data和Type属性启动Android系统内置组件的代码：</p>
+<p>（六）、Extra属性：</p>
+<p>​    1、通过intent.putExtra(键, 值)的形式在多个Activity之间进行数据交换。</p>
+<p>​    2、系统内置的几个Extra常量：</p>
+<ul>
+<li>
+<p>EXTRA_BCC：存放邮件密送人地址的字符串数组。</p>
+</li>
+<li>
+<p>EXTRA_CC：存放邮件抄送人地址的字符串数组。</p>
+</li>
+<li>
+<p>EXTRA_EMAIL：存放邮件地址的字符串数组。</p>
+</li>
+<li>
+<p>EXTRA_SUBJECT：存放邮件主题字符串。</p>
+</li>
+<li>
+<p>EXTRA_TEXT：存放邮件内容。</p>
+</li>
+<li>
+<p>EXTRA_KEY_EVENT：以KeyEvent对象方式存放触发Intent的按键。</p>
+</li>
+<li>
+<p>EXTRA_PHONE_NUMBER：存放调用ACTION_CALL时的电话号码。</p>
+</li>
+</ul>
+<p>​    3、 Intent利用Action、Data和Type、Extra属性启动Android系统内置组件的代码：</p>
+<p>（七）、Flags属性：Intent可调用addFlags()方法来为Intent添加控制标记。【<strong>重要</strong>】</p>
+<p>​    1、FLAG_ACTIVITY_CLEAR_TOP:（效果同Activity  LaunchMode的singleTask）</p>
+<p>​        如果在栈中已经有该Activity的实例，就重用该实例。重用时，会让该实例回到栈顶，因此在它上面的实例将会被移除栈。如果栈中不存在该实例，将会创建新的实例放入栈中。</p>
+<p>​    2、FLAG_ACTIVITY_SINGLE_TOP:（效果同Activity  LaunchMode的singleTop）</p>
+<p>​        如果在任务的栈顶正好存在该Activity的实例， 就重用该实例，而不会创建新的Activity对象。</p>
+<p>​    3、FLAG_ACTIVITY_NEW_TASK:</p>
+<p>​    4、FLAG_ACTIVITY_MULTIPLE_TASK:</p>
+<p>​    5、FLAG_ACTIVITY_BROUGHT_TO_FRONT:</p>
+<p>​    6、FLAG_ACTIVITY_RESET_TASK_IF_NEEDED:</p>
+<p>示例代码：</p>
+<p>Intent intent = new Intent(this, MainActivity.class); //将Activity栈中处于MainActivity主页面之上的Activity都弹出。 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); startActivity(intent);</p>
 
                 
 
@@ -279,12 +505,12 @@ additionalParameters += ‘–set-max-idx-number=62000’<br>
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2018/06/20/retrofit/" data-toggle="tooltip" data-placement="top" title="EasyRetrofit  一个基于  Retrofit 请求框架封装的一个通用网络请求库">&larr; Previous Post</a>
+                            <a href="/2017/06/20/Kotlin学习/" data-toggle="tooltip" data-placement="top" title="Android 开发学习 - Kotlin">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2017/07/11/Java&Kotlin单利模式/" data-toggle="tooltip" data-placement="top" title="Java & Kotlin 之单利模式">Next Post &rarr;</a>
+                            <a href="/2015/09/22/js-version/" data-toggle="tooltip" data-placement="top" title="Example Post">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -352,8 +578,8 @@ additionalParameters += ‘–set-max-idx-number=62000’<br>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "http://yoursite-url/2018/03/22/Android_Gradle问题总结/";
-    var disqus_url = "http://yoursite-url/2018/03/22/Android_Gradle问题总结/";
+    var disqus_identifier = "http://yoursite-url/2016/05/11/Intent/";
+    var disqus_url = "http://yoursite-url/2016/05/11/Intent/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

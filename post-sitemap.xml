@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://yoursite-url/2016/05/11/Intent/</loc>
+        <lastmod>2019-08-30T09:38:48.422Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://yoursite-url/2018/08/02/Android%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</loc>
         <lastmod>2019-08-30T09:27:36.468Z</lastmod>
         <changefreq>weekly</changefreq>
