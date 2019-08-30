@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          EasyRetrofit  一个基于  Retrofit 请求框架封装的一个通用网络请求库 - Hyp-Blog
+          Android中的缓存处理 - Hyp-Blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite-url/2018/06/20/retrofit/">
+    <link rel="canonical" href="http://yoursite-url/2018/10/29/Android中的缓存处理/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -95,11 +95,11 @@
                               <a class="tag" href="/tags/#Android" title="Android">Android</a>
                             
                         </div>
-                        <h1>EasyRetrofit  一个基于  Retrofit 请求框架封装的一个通用网络请求库</h1>
+                        <h1>Android中的缓存处理</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by Hyp on
-                            2018-06-20
+                            2018-10-29
                         </span>
                     </div>
                 
@@ -216,116 +216,66 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <ul>
-<li>
-<p>来源：由于项目比较老, 从最初的 HttpUrlconnection 请求到 Google Volley 再到 OKHttp 库，项目在网络请求框架方面不断的变更。<br>
-Retrofit RXJava 比较流行后，17 年就变更请求库为 Retrofit，这里只是做了一些通用请求库的封装 。</p>
-<pre><code>需要统一接口定义的可直接采用 API.class 这个类, 里面列举了一些常用的请求方式 和参数，当然也可以自定义 API
-
-    @FormUrlEncoded
-    @POST
-    Observable&lt;String&gt; post(@Url String url, @HeaderMap HashMap&lt;String, String&gt; headerMap,
-                            @FieldMap HashMap&lt;String, String&gt; params);
-
-    @FormUrlEncoded
-    @GET
-    Observable&lt;String&gt; get(@Url String url, @HeaderMap HashMap&lt;String, String&gt; headerMap,
-                           @FieldMap HashMap&lt;String, String&gt; params);
-
-    @Multipart
-    @POST
-    Observable&lt;String&gt; upload(@Url String url, @HeaderMap HashMap&lt;String, String&gt; headerMap,
-                              @Part List&lt;MultipartBody.Part&gt; files);
-
-    @POST
-    Observable&lt;ResponseBody&gt; downloadPicFromNetFile(@Url String url, @HeaderMap HashMap&lt;String, String&gt; headerMap);
-
-    @FormUrlEncoded
-    @POST
-    Observable&lt;ResponseBody&gt; downloadPicFromNetBM(@Url String url, @HeaderMap HashMap&lt;String, String&gt; headerMap,
-                                                  @FieldMap HashMap&lt;String, String&gt; params);
-
-    @POST
-    Observable&lt;ResponseBody&gt; downloadPicFromNetBM(@Url String url, @HeaderMap HashMap&lt;String, String&gt; headerMap);
-</code></pre>
-<p>如下：</p>
-<p>使用方法：</p>
+                <h1><span id="android中的缓存处理">Android中的缓存处理</span></h1>
+<p>一、缓存介绍：</p>
+<p>（一）、Android中缓存的必要性：</p>
+<p>智能手机的缓存管理应用非常的普遍和需要，是提高用户体验的有效手段之一。</p>
+<p>1、没有缓存的弊端：</p>
 <ul>
-<li>Application 中初始化</li>
+<li>流量开销：对于客户端——服务器端应用，从远程获取图片算是经常要用的一个功能，而图片资源往往会消耗比较大的流量。</li>
+<li>加载速度：如果应用中图片加载速度很慢的话，那么用户体验会非常糟糕。</li>
+<li>那么如何处理好图片资源的获取和管理呢？异步下载+本地缓存</li>
 </ul>
-</li>
+<p>2、缓存带来的好处：</p>
+<ul>
+<li>1.服务器的压力大大减小；</li>
+<li>2.客户端的响应速度大大变快(用户体验好)；</li>
+<li>3.客户端的数据加载出错情况大大较少，大大提高了应有的稳定性(用户体验好)；</li>
+<li>4.一定程度上可以支持离线浏览(或者说为离线浏览提供了技术支持)。</li>
 </ul>
-<pre><code>        RetrofitClient.init(this, &quot;http://www.baidu.com&quot;).build();
-
-
-- POST 请求
-
-        RetrofitManager.getInstance().post(url, header, params, new DisposeObserver&lt;RequestCallback&gt;() {
-                            @Override
-                            protected RequestCallback onSuccess(String json) {
-                                return new DisposeRequestCoordinateJson().handlerRequestSuccess(json, requestCallback);
-                            }
-
-                            @Override
-                            protected RequestCallback onFailure(Throwable throwable) {
-                                return new DisposeRequestCoordinateJson().handlerRequestError(throwable, requestCallback);
-                            }
-                        });
-
-
-下载图片：
-
-- File
-
-            RetrofitManager.downloadPicFromNetFile(url, header, path, fileName, new FileCallBack() {
-                        @Override
-                        public void onResponse(File file) {
-
-                        }
-
-                        @Override
-                        public void onError() {
-
-                        }
-                    });
-
-
-
-- Bitmap
-
-           RetrofitManager.downloadPicFromNetBitmap(changeHttpUrl(url), readeHeader(), new BitmapCallBack() {
-                       @Override
-                       public void onResponse(Bitmap bm) {
-
-                       }
-
-                       @Override
-                       public void onError() {
-
-                       }
-                   });
-
----
-*依赖库
----
-
-[rxjava2](api 'io.reactivex.rxjava2:rxjava:2.1.9')
-[rxandroid](api 'io.reactivex.rxjava2:rxandroid:2.0.2')
-[retrofit2](api 'com.squareup.retrofit2:retrofit:2.4.0')
-[converter-scalars](api 'com.squareup.retrofit2:converter-scalars:2.2.0')
-[adapter-rxjava2](api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0')
-</code></pre>
-<hr>
-<pre><code>&lt;dependency&gt;
-  &lt;groupId&gt;com.hyp.easy.easyretrofit&lt;/groupId&gt;
-  &lt;artifactId&gt;hyp&lt;/artifactId&gt;
-  &lt;version&gt;1.0.0&lt;/version&gt;
-  &lt;type&gt;pom&lt;/type&gt;
-&lt;/dependency&gt;
-
-
-implementation 'com.hyp.easy.easyretrofit:hyp:1.0.0'
-</code></pre>
+<p>3、缓存管理的应用场景：</p>
+<ul>
+<li>1.提供网络服务的应用；</li>
+<li>2.数据更新不需要实时更新，即便是允许3-5分钟的延迟也建议采用缓存机制；</li>
+<li>3.缓存的过期时间是可以接受的(不会因为缓存带来的好处，导致某些数据因为更新不及时而影响产品的形象等)</li>
+</ul>
+<p>4、大位图导致内存开销大的原因是什么？</p>
+<ul>
+<li>1.下载或加载的过程中容易导致阻塞; 大位图Bitmap对象是png格式的图片的30至100倍；</li>
+<li>2.大位图在加载到ImageView控件前的解码过程；BitmapFactory.decodeFile()会有内存消耗。</li>
+</ul>
+<p>5、缓存设计的要点：</p>
+<ul>
+<li>1.命中率；</li>
+<li>2.合理分配占用的空间；</li>
+<li>3.合理的缓存层级。</li>
+</ul>
+<p>（二）、加载图片的正确流程是：“内存-文件-网络 三层cache策略”</p>
+<p>1、先从内存缓存中获取，取到则返回，取不到则进行下一步；</p>
+<p>2、从文件缓存中获取，取到则返回并更新到内存缓存，取不到则进行下一步；</p>
+<p>3、从网络下载图片，并更新到内存缓存和文件缓存。</p>
+<p>具体说就是：同一张图片只要从网络获取一次，然后在本地缓存起来，之后加载同一张图片时就从缓存中去加载。从内存缓存读取图片是最快的，但是因为内存容量有限，所以最好再加上文件缓存。文件缓存空间也不是无限大的，容量越大读取效率越低，因此可以设置一个限定大小比如10M，或者限定保存时间比如一天。</p>
+<p>在键值对（key-value）中，图片缓存的key是图片url的hash值，value就是bitmap。所以，按照这个逻辑，只要一个url被下载过，其图片就被缓存起来了。</p>
+<p>（三）、内存缓存分类：</p>
+<p>在JDK1.2以前的版本中，当一个对象不被任何变量引用，那么程序就无法再使用这个对象。也就是说，只有对象处于可触及状态，程序才能使用它。这 就像在日常生活中，从商店购买了某样物品后，如果有用，就一直保留它，否则就把它扔到垃圾箱，由清洁工人收走。一般说来，如果物品已经被扔到垃圾箱，想再 把它捡回来使用就不可能了。但有时候情况并不这么简单，你可能会遇到类似鸡肋一样的物品，食之无味，弃之可惜。这种物品现在已经无用了，保留它会占空间，但是立刻扔掉它也不划算，因为也许将来还会派用场。对于这样的可有可无的物品，一种折衷的处理办法是：如果家里空间足够，就先把它保留在家里，如果家里空间不够，即使把家里所有的垃圾清除，还是无法容纳那些必不可少的生活用品，那么再扔掉这些可有可无的物品。</p>
+<p>从JDK1.2版本开始，把对象的引用分为四种级别，从而使程序能更加灵活的控制对象的生命周期。</p>
+<p>这四种级别由高到低依次为：强引用、软引用、弱引用和虚引用。</p>
+<p>1、强引用：（在Android中LruCache就是强引用缓存）</p>
+<p>平时我们编程的时候例如：Object object=new Object（）；那object就是一个强引用了。如果一个对象具有强引用，那就类似于必不可少的生活用品，垃圾回收器绝不会回收它。当内存空间不足，Java虚拟机宁愿抛出OOM异常，使程序异常终止，也不会回收具有强引用的对象来解决内存不足问题。</p>
+<p>2、软引用（SoftReference）：</p>
+<p>软引用类似于可有可无的生活用品。如果内存空间足够，垃圾回收器就不会回收它，如果内存空间不足了，就会回收这些对象的内存。只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存。 软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收，Java虚拟机就会把这个软引用加入到与之关联的引用队列中。</p>
+<p>使用软引用能防止内存泄露，增强程序的健壮性。</p>
+<p>3、弱引用（WeakReference）：</p>
+<p>弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程， 因此不一定会很快发现那些只具有弱引用的对象。  弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<p>4、虚引用（PhantomReference）</p>
+<p>&quot;虚引用&quot;顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收。 虚引用主要用来跟踪对象被垃圾回收的活动。</p>
+<p>虚引用与软引用和弱引用的一个区别在于：虚引用必须和引用队列（ReferenceQueue）联合使用。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。程序如果发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</p>
+<p>【相关应用：】</p>
+<p>在java.lang.ref包中提供了三个类：SoftReference类、WeakReference类和PhantomReference类，它们分别代表软引用、弱引用和虚引用。ReferenceQueue类表示引用队列，它可以和这三种引用类联合使用，以便跟踪Java虚拟机回收所引用的对 象的活动。</p>
+<p>​        <strong>Lru：Least Recently Used</strong></p>
+<p>​        近期最少使用算法，是一种页面置换算法，其思想是在缓存的页面数目固定的情况下，那些最近使用次数最少的页面将被移出，对于我们的内存缓存来说，强引用缓存大小固定为4M，如果当缓存的图片大于4M的时候，有些图片就会被从强引用缓存中删除，哪些图片会被删除呢，就是那些近期使用次数最少的图片。</p>
+<p>（四）、内存保存：</p>
+<p>在内存中保存的话，只能保存一定的量，而不能一直往里面放，需要设置数据的过期时间、LRU等算法。这里有一个方法是把常用的数据放到一个缓存中（A），不常用的放到另外一个缓存中（B）。当要获取数据时先从A中去获取，如果A中不存在那么再去B中获取。B中的数据主要是A中LRU出来的数据，这里的内存回收主要针对B内存，从而保持A中的数据可以有效的被命中。</p>
 
                 
 
@@ -333,13 +283,9 @@ implementation 'com.hyp.easy.easyretrofit:hyp:1.0.0'
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2018/09/22/Handler_Looper消息传递机制/" data-toggle="tooltip" data-placement="top" title="Handler消息传递机制初步认识">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2018/03/22/Android_Gradle问题总结/" data-toggle="tooltip" data-placement="top" title="Android D8 DEX 编译器">Next Post &rarr;</a>
+                            <a href="/2018/09/22/Handler_Looper消息传递机制/" data-toggle="tooltip" data-placement="top" title="Handler消息传递机制初步认识">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -407,8 +353,8 @@ implementation 'com.hyp.easy.easyretrofit:hyp:1.0.0'
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "http://yoursite-url/2018/06/20/retrofit/";
-    var disqus_url = "http://yoursite-url/2018/06/20/retrofit/";
+    var disqus_identifier = "http://yoursite-url/2018/10/29/Android中的缓存处理/";
+    var disqus_url = "http://yoursite-url/2018/10/29/Android中的缓存处理/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
