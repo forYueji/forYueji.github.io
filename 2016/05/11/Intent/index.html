@@ -268,14 +268,14 @@ startActivity(intent);
 <p>​        通常，Action、Category属性结合使用，定义这两个属性都是在配置文件的<intent-filter>节点中。Intent通过定义Action属性（其实就是一段自定义的字符串），这样就可以把Intent与具体的某个Activity分离，实现了解耦。否则，每次跳转，都要写成类似new Intent(MainActivity.this,NextActivity.class)这样的形式，也就是说必须将要跳转的目标Activity的名字写出来，这样的编码其实是“硬编码”，并没有实现松耦合。调用Intent对象的setAction()方法实现页面跳转虽然略微复杂（需要在AndroidManifest.xml文件中配置），但是实现了解耦。</intent-filter></p>
 <p>1、示例代码：</p>
 <pre><code>Intent intent = new Intent();
-intent.setAction(&quot;com.steven.android06lifecycle.nextactivity&quot;);
+intent.setAction(&quot;com.hyp.androidlifecycle.nextactivity&quot;);
 startActivity(intent);
 </code></pre>
 <p>//在配置文件中注册Activity的时候需要声明：</p>
-<pre><code>&lt;activity android:name=&quot;com.steven.android06lifecycle.NextActivity&quot;&gt;
+<pre><code>&lt;activity android:name=&quot;com.hyp.androidlifecycle.NextActivity&quot;&gt;
 </code></pre>
 <p>​		<intent-filter><br>
-​		<action android:name="com.steven.android06lifecycle.nextactivity"><br>
+​		<action android:name="com.hyp.androidlifecycle.nextactivity"><br>
 			<category android:name="android.intent.category.DEFAULT"><br>
 ​		</category></action></intent-filter><br>
 </p>
